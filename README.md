@@ -257,9 +257,3 @@ Die Download-Seite beschreibt SKALES als **source-available** unter **BSL-1.1** 
 Zusätzlich beschreibt die GitHub-Präsenz das Projekt als lokalen KI-Desktop-Agenten mit vielen Providern und lokalem Betrieb über Ollama.[web:2][web:39]
 
 ---
-
-## Zusatzanmerkung: Einsatzmöglichkeiten für Lehrkräfte in Baden-Württemberg (ohne Gewähr)
-
-Für Lehrkräfte in Baden-Württemberg ist SKALES besonders interessant, weil sich damit KI-gestützte Arbeitsprozesse lokal oder providerbasiert für Unterrichtsvorbereitung, Materialerstellung, Differenzierung, Reflexion und Medienbildung nutzen lassen. Das passt gut zu den Zielen des Bildungsplans 2016, in dem Medienbildung als Leitperspektive und das Fach Informatik und Medienbildung den sicheren, reflektierten und kompetenten Umgang mit digitalen Technologien fördern sollen.[web:23][web:30]
-
-Praktische Einsatzfelder für Schule und Unterricht sind zum Beispiel das Formulieren differenzierter Arbeitsaufträge, das Vereinfachen von Texten, das Erstellen von Quizfragen, das Strukturieren von Unterrichtsreihen oder das kritische Vergleichen von KI-Antworten im Sinne von Medienreflexion. Gerade weil im baden-württembergischen Kontext informatische Grundkompetenzen, algorithmisches Denken und erste Einblicke in KI ausdrücklich genannt werden, kann SKALES sowohl für Unterrichtsplanung als auch für lernförderliche Unterrichtsszenarien genutzt werden.[web:23][web:26][web:28]
