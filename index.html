@@ -9,394 +9,432 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Styles wie zuvor, nur ohne teachers-spezifische Anpassungen */
+    /* Base: mobile-first, einfache einspaltige Darstellung */
     :root {
       --bg: #020617;
-      --bg-soft: #0b1220;
-      --bg-card: #020617;
-      --border-soft: rgba(148,163,184,0.25);
       --accent: #4f46e5;
-      --accent-soft: rgba(79,70,229,0.14);
       --accent-2: #06b6d4;
-      --accent-grad: linear-gradient(135deg,#4f46e5,#06b6d4);
-      --text-main: #e5e7eb;
-      --text-muted: #9ca3af;
-      --danger: #f97373;
-      --shadow-soft: 0 22px 45px rgba(15,23,42,0.9);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148,163,184,0.35);
       --radius-lg: 24px;
-      --radius-md: 16px;
-      --radius-pill: 999px;
-      --blur-strong: blur(28px);
-      --transition-fast: 180ms ease-out;
+      --radius-md: 18px;
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body {
       font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:
-        radial-gradient(circle at top left,#1d243a 0,transparent 50%),
-        radial-gradient(circle at bottom right,#020617 0,#000 60%);
-      color:var(--text-main);
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
+      background:radial-gradient(circle at top,#020617 0,#000 65%);
+      color:var(--text);
     }
-    a{color:inherit;text-decoration:none}
-    main{max-width:1080px;width:100%;margin:0 auto;padding:24px 20px 40px}
-    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;gap:16px}
-    .brand{display:flex;align-items:center;gap:14px}
-    .brand-logo{
-      width:44px;height:44px;border-radius:18px;
-      background:radial-gradient(circle at 30% 20%,#22c55e 0,transparent 32%),
-                 radial-gradient(circle at 70% 80%,#a855f7 0,transparent 36%),
-                 var(--accent-grad);
-      display:flex;align-items:center;justify-content:center;
-      box-shadow:0 18px 40px rgba(37,99,235,0.65);
-      position:relative;overflow:hidden;
-    }
-    .brand-logo::after{
-      content:"";position:absolute;inset:0;
-      background:radial-gradient(circle at top,rgba(255,255,255,0.18),transparent 60%);
-      mix-blend-mode:screen;opacity:.9;
-    }
-    .brand-logo span{position:relative;font-size:20px;font-weight:700;letter-spacing:2px;color:#f9fafb}
-    .brand-text-title{font-size:18px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#e5e7eb}
-    .brand-text-sub{font-size:12px;color:var(--text-muted)}
-    nav{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
-    .nav-link{
-      font-size:13px;padding:8px 14px;border-radius:999px;border:1px solid transparent;
-      color:var(--text-muted);cursor:pointer;transition:all var(--transition-fast);
-      background:rgba(15,23,42,0.6);backdrop-filter:blur(12px);
-    }
-    .nav-link:hover{color:#f9fafb;border-color:rgba(148,163,184,0.4);background:rgba(15,23,42,0.85)}
-    .nav-link.primary{
-      background:var(--accent-grad);color:#f9fafb;box-shadow:0 16px 32px rgba(79,70,229,0.6);
-      border:none;font-weight:500;
-    }
-    .nav-link.primary:hover{transform:translateY(-1px);box-shadow:0 22px 40px rgba(79,70,229,0.8)}
-    .hero{
-      position:relative;border-radius:var(--radius-lg);
-      background:radial-gradient(circle at top left,rgba(79,70,229,0.3) 0,transparent 55%),
-                 radial-gradient(circle at bottom right,rgba(8,47,73,0.7) 0,transparent 55%),
-                 rgba(15,23,42,0.94);
-      padding:26px 24px 22px;
-      box-shadow:var(--shadow-soft);
-      border:1px solid rgba(148,163,184,0.28);
-      margin-bottom:22px;
-      overflow:hidden;
-    }
-    .hero-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px;align-items:stretch}
-    .pill-row{display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
-    .pill{
-      border-radius:999px;padding:4px 10px;font-size:11px;
-      display:inline-flex;align-items:center;gap:6px;
-      border:1px solid rgba(148,163,184,0.5);
-      background:rgba(15,23,42,0.8);color:var(--text-muted);
-    }
-    .pill.primary{border-color:transparent;background:rgba(22,163,74,0.12);color:#bbf7d0}
-    .pill-dot{width:8px;height:8px;border-radius:999px;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,0.18)}
-    .hero-title{font-size:clamp(24px,3vw,30px);line-height:1.1;margin-bottom:10px;letter-spacing:-0.03em}
-    .hero-title span.highlight{
-      background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
-    }
-    .hero-sub{font-size:13.5px;color:var(--text-muted);max-width:500px;margin-bottom:18px}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-    .badge{
-      font-size:11px;border-radius:999px;padding:4px 10px;
-      border:1px solid rgba(148,163,184,0.35);
-      color:#cbd5f5;background:rgba(15,23,42,0.75);
-      display:inline-flex;align-items:center;gap:6px;
-    }
-    .badge-dot{width:7px;height:7px;border-radius:999px;background:#22c55e}
-    .hero-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px}
-    .btn{
-      border-radius:999px;padding:9px 16px;font-size:13px;border:none;cursor:pointer;
-      display:inline-flex;align-items:center;gap:8px;font-weight:500;
-      transition:all var(--transition-fast);outline:none;
-    }
-    .btn-primary{background:var(--accent-grad);color:#f9fafb;box-shadow:0 12px 24px rgba(79,70,229,0.7)}
-    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 16px 32px rgba(79,70,229,0.85)}
-    .btn-ghost{
-      background:rgba(15,23,42,0.7);
-      border:1px solid rgba(148,163,184,0.4);
-      color:var(--text-muted);
-    }
-    .btn-ghost:hover{background:rgba(15,23,42,0.95);color:#e5e7eb}
-    .hero-note{font-size:11px;color:var(--text-muted)}
-    .hero-note strong{color:#e5e7eb}
-    .hero-card{
-      border-radius:var(--radius-md);
-      background:radial-gradient(circle at top,rgba(79,70,229,0.55) 0,transparent 60%),
-                 rgba(15,23,42,0.96);
-      border:1px solid rgba(129,140,248,0.45);
-      padding:14px 14px 12px;
-      position:relative;overflow:hidden;
-    }
-    .hero-card::before{
-      content:"";position:absolute;inset:0;
-      background:radial-gradient(circle at 0 0,rgba(248,250,252,0.2),transparent 55%);
-      mix-blend-mode:soft-light;opacity:0.9;
-    }
-    .hero-card-inner{
-      position:relative;display:flex;flex-direction:column;gap:8px;
-      font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-      font-size:11.5px;color:#e5e7eb;
-    }
-    .hero-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
-    .hero-card-title{font-size:11px;text-transform:uppercase;letter-spacing:0.16em;color:#c7d2fe}
-    .hero-card-chip{
-      font-size:10px;padding:4px 8px;border-radius:999px;
-      background:rgba(15,23,42,0.9);border:1px solid rgba(191,219,254,0.6);color:#bfdbfe;
-    }
-    .sys{color:#a5b4fc}
-    .cmd{color:#f97316}
-    .hl{color:#bef264}
-    .comment{color:rgba(226,232,240,0.75)}
-    .step-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px}
-    .step-card{
-      border-radius:var(--radius-md);
-      background:rgba(15,23,42,0.9);
-      border:1px solid rgba(148,163,184,0.32);
-      padding:14px 14px 12px;
-      font-size:12px;
-    }
-    .step-pill{font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:#9ca3af;margin-bottom:5px}
-    .step-title{font-weight:600;margin-bottom:6px;color:#e5e7eb}
-    .step-card ul{list-style:none;padding-left:0}
-    .step-card li{margin-bottom:4px;color:var(--text-muted);display:flex;gap:6px}
-    .step-dot{width:4px;flex:0 0 4px;height:4px;border-radius:999px;background:rgba(148,163,184,0.8);margin-top:7px}
-    .section{
-      margin-top:26px;border-radius:var(--radius-lg);
-      background:rgba(15,23,42,0.92);
-      border:1px solid rgba(148,163,184,0.3);
-      padding:20px 18px 16px;
-    }
-    .section-header{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px}
-    .section-title{font-size:15px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#9ca3af}
-    .section-sub{font-size:12px;color:var(--text-muted)}
-    .grid-two{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;margin-top:8px;font-size:13px;color:var(--text-muted)}
-    .list{list-style:none;padding-left:0}
-    .list li{margin-bottom:6px;display:flex;gap:8px}
-    .list-bullet{width:6px;height:6px;margin-top:7px;border-radius:999px;background:rgba(148,163,184,0.8);flex:0 0 6px}
-    .table-wrap{margin-top:10px;overflow-x:auto}
-    table{width:100%;border-collapse:collapse;font-size:12px;color:var(--text-muted)}
-    th,td{border-bottom:1px solid rgba(51,65,85,0.9);padding:7px 6px;text-align:left}
-    th{font-weight:500;color:#e5e7eb;white-space:nowrap;background:rgba(15,23,42,0.9)}
-    code{
-      font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-      font-size:11.5px;
-      background:rgba(15,23,42,0.9);
-      padding:2px 4px;border-radius:4px;border:1px solid rgba(30,64,175,0.5);
-      color:#bfdbfe;
-    }
-    pre{
-      background:rgba(15,23,42,0.96);
-      border-radius:12px;
-      padding:10px 10px 8px;
-      overflow-x:auto;
-      font-size:11.5px;
-      border:1px solid rgba(30,64,175,0.6);
-      margin-top:6px;
-    }
-    footer{
-      max-width:1080px;width:100%;
+    a { color:#a5b4fc; text-decoration:none; }
+    .page {
+      max-width:1080px;
       margin:0 auto;
-      padding:0 20px 20px;
-      font-size:11px;
-      color:var(--text-muted);
+      padding:16px 14px 24px;
+    }
+    header {
       display:flex;
+      align-items:center;
       justify-content:space-between;
       gap:10px;
+      margin-bottom:16px;
     }
-    .link-inline{color:#a5b4fc}
-    .chip-muted{
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .logo {
+      width:40px;height:40px;border-radius:16px;
+      background:radial-gradient(circle at 30% 20%,#22c55e 0,transparent 30%),
+                 radial-gradient(circle at 70% 80%,#a855f7 0,transparent 34%),
+                 linear-gradient(135deg,#4f46e5,#06b6d4);
+      display:flex;align-items:center;justify-content:center;
+      font-size:16px;font-weight:700;
+      box-shadow:0 14px 26px rgba(15,23,42,0.9);
+    }
+    .brand-title { font-size:17px;font-weight:600; }
+    .brand-sub { font-size:12px;color:var(--muted); }
+    nav {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .nav-link {
+      font-size:12px;
+      padding:6px 10px;
       border-radius:999px;
-      border:1px solid rgba(148,163,184,0.4);
-      padding:3px 8px;
-      font-size:10px;
+      border:1px solid rgba(148,163,184,0.5);
+      color:var(--muted);
+      background:rgba(15,23,42,0.9);
+      cursor:pointer;
+    }
+    .nav-link.primary {
+      background:linear-gradient(135deg,#4f46e5,#06b6d4);
+      color:#f9fafb;
+      border:none;
+      font-weight:500;
+    }
+
+    .hero {
+      border-radius:var(--radius-lg);
+      padding:16px 14px 14px;
+      background:rgba(15,23,42,0.96);
+      border:1px solid var(--border);
+      margin-bottom:16px;
+    }
+    .pill {
+      display:inline-flex;align-items:center;gap:6px;
+      font-size:11px;padding:3px 8px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.5);
+      color:var(--muted);margin-bottom:8px;
+    }
+    .pill-dot {
+      width:7px;height:7px;border-radius:999px;background:#22c55e;
+    }
+    h1 {
+      font-size:20px;line-height:1.2;margin-bottom:8px;
+    }
+    .hero-sub {
+      font-size:13px;color:var(--muted);margin-bottom:10px;
+    }
+    .hero-badges {
+      display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;
+    }
+    .badge {
+      font-size:10px;padding:3px 7px;border-radius:999px;
+      border:1px solid rgba(148,163,184,0.4);color:#cbd5f5;
+    }
+    .buttons {
+      display:flex;flex-direction:column;gap:8px;margin-bottom:8px;
+    }
+    .btn {
+      border-radius:999px;padding:9px 10px;font-size:13px;font-weight:500;
+      border:none;outline:none;
+      display:flex;align-items:center;justify-content:center;gap:6px;
+      cursor:pointer;
+    }
+    .btn-primary {
+      background:linear-gradient(135deg,#4f46e5,#06b6d4);
+      color:#f9fafb;
+    }
+    .btn-outline {
+      background:transparent;
+      border:1px solid var(--border);
+      color:var(--muted);
+    }
+    .hero-note {
+      font-size:11px;
+      color:var(--muted);
+    }
+    .hero-note strong { color:#e5e7eb; }
+
+    .card {
+      border-radius:var(--radius-md);
+      background:rgba(15,23,42,0.96);
+      border:1px solid var(--border);
+      padding:12px 11px 10px;
+      margin-bottom:14px;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .card h2 {
+      font-size:14px;
       text-transform:uppercase;
       letter-spacing:0.08em;
+      margin-bottom:6px;
+      color:#e5e7eb;
     }
-    @media(max-width:820px){
-      header{flex-direction:column;align-items:flex-start}
-      nav{justify-content:flex-start}
-      .hero-grid{grid-template-columns:minmax(0,1fr)}
-      .hero-card{order:-1}
-      .step-grid{grid-template-columns:minmax(0,1fr)}
-      .grid-two{grid-template-columns:minmax(0,1fr)}
+    .list { list-style:none; }
+    .list li {
+      margin-bottom:5px;
+      display:flex;
+      gap:6px;
     }
-    @media(max-width:540px){
-      main{padding-inline:16px}
-      .hero{padding:20px 16px 18px}
-      .section{padding:16px 14px 14px}
-      .hero-title{font-size:22px}
-      .hero-sub{font-size:13px}
-      .hero-badges{gap:6px}
-      .badge{font-size:10px}
-      .nav-link{font-size:12px;padding-inline:10px}
+    .dot {
+      width:5px;height:5px;border-radius:999px;
+      background:rgba(148,163,184,0.9);
+      margin-top:6px;flex:0 0 5px;
+    }
+    code {
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New",monospace;
+      font-size:11.5px;
+      background:rgba(15,23,42,0.9);
+      padding:1px 4px;
+      border-radius:4px;
+      border:1px solid rgba(30,64,175,0.5);
+      color:#bfdbfe;
+    }
+    footer {
+      margin-top:12px;
+      font-size:11px;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    /* Desktop-/Tablet-Layout ab ~768px: umfangreicher, wie "große" Version */
+    @media (min-width: 768px) {
+      .page {
+        padding:24px 20px 32px;
+      }
+      header {
+        margin-bottom:24px;
+      }
+      .brand-title {
+        font-size:18px;
+      }
+      .brand-sub {
+        font-size:12px;
+      }
+      .nav-link {
+        font-size:13px;
+        padding:8px 14px;
+      }
+      .hero {
+        padding:24px 24px 20px;
+      }
+      .hero-layout {
+        display:grid;
+        grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);
+        gap:20px;
+        align-items:stretch;
+      }
+      h1 {
+        font-size:26px;
+      }
+      .hero-sub {
+        font-size:13.5px;
+        max-width:520px;
+      }
+      .hero-badges .badge {
+        font-size:11px;
+      }
+      .buttons {
+        flex-direction:row;
+        align-items:center;
+      }
+      .btn-primary {
+        box-shadow:0 12px 24px rgba(79,70,229,0.7);
+      }
+      .hero-card-desktop {
+        display:block;
+      }
+    }
+    /* Zusätzliche große Bildschirme */
+    @media (min-width: 1024px) {
+      h1 {
+        font-size:30px;
+      }
+    }
+
+    /* Hero-Card nur auf größeren Screens sichtbar */
+    .hero-card-desktop {
+      display:none;
+      border-radius:18px;
+      background:radial-gradient(circle at top,rgba(79,70,229,0.4) 0,transparent 60%),
+                 rgba(15,23,42,0.96);
+      border:1px solid rgba(129,140,248,0.5);
+      padding:14px;
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New",monospace;
+      font-size:11.5px;
+      color:#e5e7eb;
+    }
+    .hero-card-title {
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      color:#c7d2fe;
+      margin-bottom:4px;
+    }
+    .hero-card-line {
+      margin-bottom:3px;
+    }
+    .hero-card-line span.label {
+      color:#a5b4fc;
+    }
+
+    .section-title {
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:6px;
+      color:#9ca3af;
+    }
+    .section-sub {
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:8px;
+    }
+    .two-col {
+      display:block;
+    }
+    @media (min-width: 768px) {
+      .two-col {
+        display:grid;
+        grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
+        gap:16px;
+      }
+    }
+    .table-wrap {
+      margin-top:8px;
+      overflow-x:auto;
+    }
+    table {
+      width:100%;
+      border-collapse:collapse;
+      font-size:12px;
+      color:var(--muted);
+    }
+    th, td {
+      border-bottom:1px solid rgba(51,65,85,0.9);
+      padding:6px;
+      text-align:left;
+    }
+    th {
+      font-weight:500;
+      color:#e5e7eb;
+      white-space:nowrap;
+      background:rgba(15,23,42,0.96);
     }
   </style>
 </head>
 <body>
-<main>
+<div class="page">
   <header>
     <div class="brand">
-      <div class="brand-logo"><span>AI</span></div>
+      <div class="logo">AI</div>
       <div>
-        <div class="brand-text-title">SKALES</div>
-        <div class="brand-text-sub">Lokaler KI-Desktop-Agent · Windows · macOS · Linux</div>
+        <div class="brand-title">SKALES</div>
+        <div class="brand-sub">Lokaler KI-Desktop-Agent · Windows · macOS · Linux</div>
       </div>
     </div>
     <nav>
       <button class="nav-link" data-scroll="#features">Features</button>
       <button class="nav-link" data-scroll="#install">Installation</button>
       <button class="nav-link" data-scroll="#models">Modelle</button>
-      <a class="nav-link primary" href="https://getskales.app/download/" target="_blank" rel="noreferrer">Download</a>
+      <a class="nav-link primary" href="https://getskales.app/download/" target="_blank" rel="noreferrer">
+        Download
+      </a>
     </nav>
   </header>
 
   <section class="hero" id="top">
-    <div class="hero-grid">
+    <div class="hero-layout">
+      <!-- linke Spalte: Mobile + Desktop Text -->
       <div>
-        <div class="pill-row">
-          <div class="pill primary">
-            <span class="pill-dot"></span>
-            Lokale KI in 5 Minuten
-          </div>
-          <div class="pill">Keine Docker-Hölle</div>
+        <div class="pill">
+          <span class="pill-dot"></span>
+          In wenigen Minuten startklar
         </div>
-        <h1 class="hero-title">
-          Dein <span class="highlight">lokaler KI-Desktop-Agent</span> – ohne Dev-Overkill.
-        </h1>
+        <h1>Lokale KI mit OpenRouter &amp; Ollama – ohne Docker-Hölle.</h1>
         <p class="hero-sub">
-          SKALES läuft direkt auf deinem Rechner, verbindet sich mit OpenRouter oder lokalen
-          Ollama-Modellen und startet in wenigen Minuten – perfekt für Projekte und Alltag.
+          SKALES läuft als Desktop-App, verbindet sich mit deinem KI-Provider oder lokalen Modellen
+          und hilft dir bei Projekten, Coding, Recherche und Organisation.
         </p>
         <div class="hero-badges">
-          <div class="badge"><span class="badge-dot"></span> Windows · macOS · Linux (Beta)</div>
-          <div class="badge">15+ KI-Provider</div>
-          <div class="badge">Ollama &amp; Custom Endpoints</div>
+          <div class="badge">Windows · macOS · Linux (Beta)</div>
+          <div class="badge">OpenRouter · Ollama · Custom</div>
         </div>
-        <div class="hero-actions">
-          <a href="https://getskales.app/download/" target="_blank" rel="noreferrer" class="btn btn-primary">
-            <span>Download starten</span><span>⟶</span>
+        <div class="buttons">
+          <a class="btn btn-primary" href="https://getskales.app/download/" target="_blank" rel="noreferrer">
+            Download starten
           </a>
-          <button class="btn btn-ghost" data-scroll="#install">Install in 3 Schritten ansehen</button>
+          <button class="btn btn-outline" data-scroll="#install">
+            Installation &amp; Modelle anzeigen
+          </button>
         </div>
         <p class="hero-note">
-          <strong>Hinweis:</strong> SKALES ist source-available (BSL‑1.1); bei lokalen Modellen bleiben Daten auf deinem Gerät.
+          <strong>Hinweis:</strong> Source-available (BSL‑1.1); bei lokalen Modellen bleiben Daten auf deinem Gerät.
         </p>
       </div>
 
-      <div class="hero-card" aria-hidden="true">
-        <div class="hero-card-inner">
-          <div class="hero-card-header">
-            <div class="hero-card-title">Onboarding · Demo</div>
-            <div class="hero-card-chip">5‑Schritte‑Setup</div>
-          </div>
-          <div><span class="sys">system</span> ▸ Lokaler Agent initialisiert.</div>
-          <div><span class="cmd">$</span> <span class="hl">Download SKALES</span> für Windows/macOS/Linux</div>
-          <div><span class="cmd">$</span> Wähle Sprache: <span class="hl">Deutsch</span></div>
-          <div><span class="cmd">$</span> Provider: <span class="hl">OpenRouter</span> · API-Key einfügen</div>
-          <div><span class="cmd">$</span> Standardmodell: <span class="hl">gpt‑4.1‑mini</span> auswählen</div>
-          <div><span class="cmd">$</span> Erste Frage: <span class="hl">„Erstelle Aufgaben für Klasse 7.“</span></div>
-          <div class="comment"># Fertig. Keine Container, kein Dev-Setup – nur Chat & Automationen.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="step-grid" id="install">
-      <article class="step-card">
-        <div class="step-pill">Schritt 1</div>
-        <div class="step-title">Download &amp; Installation</div>
-        <ul>
-          <li><span class="step-dot"></span><span>Öffne <a class="link-inline" href="https://getskales.app/download/" target="_blank" rel="noreferrer">getskales.app/download</a>.</span></li>
-          <li><span class="step-dot"></span><span>Lade die passende Version für Windows, macOS oder Linux (Beta).</span></li>
-          <li><span class="step-dot"></span><span>Installiere per Doppelklick bzw. AppImage/DEB.</span></li>
-        </ul>
-      </article>
-      <article class="step-card">
-        <div class="step-pill">Schritt 2</div>
-        <div class="step-title">API-Key einrichten</div>
-        <ul>
-          <li><span class="step-dot"></span><span>Account bei <a class="link-inline" href="https://openrouter.ai/" target="_blank" rel="noreferrer">openrouter.ai</a> anlegen.</span></li>
-          <li><span class="step-dot"></span><span>Key unter <code>/settings/keys</code> erzeugen.</span></li>
-          <li><span class="step-dot"></span><span>In SKALES unter <code>Settings → Providers → OpenRouter</code> eintragen.</span></li>
-        </ul>
-      </article>
-      <article class="step-card">
-        <div class="step-pill">Schritt 3</div>
-        <div class="step-title">Modell wählen &amp; chatten</div>
-        <ul>
-          <li><span class="step-dot"></span><span>Modell wählen (z.B. <code>gpt‑4.1‑mini</code>).</span></li>
-          <li><span class="step-dot"></span><span>Chat starten – Dateien, Code &amp; Texte möglich.</span></li>
-          <li><span class="step-dot"></span><span>Modelle per Picker oder <code>/model</code> wechseln.</span></li>
-        </ul>
-      </article>
-    </div>
-  </section>
-
-  <section class="section" id="features">
-    <div class="section-header">
-      <h2 class="section-title">Features &amp; Ziele</h2>
-      <p class="section-sub">Lokaler KI-Agent ohne komplexes Dev-Setup – ideal für Lernende und Entwickler:innen.</p>
-    </div>
-    <div class="grid-two">
-      <div>
-        <ul class="list">
-          <li><span class="list-bullet"></span><span><strong>Lokale App:</strong> Läuft als Desktop-App, nicht nur im Browser.</span></li>
-          <li><span class="list-bullet"></span><span><strong>Multi-Provider:</strong> OpenRouter, Ollama, Custom Endpoints u.a.</span></li>
-          <li><span class="list-bullet"></span><span><strong>Modellwechsel:</strong> Direkt im Chat per Picker oder <code>/model</code>.</span></li>
-          <li><span class="list-bullet"></span><span><strong>Kein Docker nötig:</strong> Installer herunterladen, starten, fertig.</span></li>
-        </ul>
-      </div>
-      <div>
-        <ul class="list">
-          <li><span class="list-bullet"></span><span><strong>Datenhoheit:</strong> Mit Ollama bleiben Daten lokal.</span></li>
-          <li><span class="list-bullet"></span><span><strong>Flexibel:</strong> Für Coding, Orga, Recherchen und Automationen.</span></li>
-          <li><span class="list-bullet"></span><span><strong>Quellen offen:</strong> Source-available auf GitHub (BSL‑1.1).</span></li>
-        </ul>
+      <!-- rechte Spalte: nur Desktop (ab 768px sichtbar) -->
+      <div class="hero-card-desktop" aria-hidden="true">
+        <div class="hero-card-title">Onboarding · Demo</div>
+        <div class="hero-card-line"><span class="label">system</span> ▸ Lokaler Agent initialisiert.</div>
+        <div class="hero-card-line">$ Download SKALES für Windows/macOS/Linux</div>
+        <div class="hero-card-line">$ Sprache: Deutsch</div>
+        <div class="hero-card-line">$ Provider: OpenRouter · API-Key einfügen</div>
+        <div class="hero-card-line">$ Modell: gpt‑4.1‑mini auswählen</div>
+        <div class="hero-card-line">$ Prompt: „Erstelle Aufgaben für Klasse 7.“</div>
+        <div class="hero-card-line"># Fertig: Keine Container, kein Dev-Setup – nur Chat &amp; Automationen.</div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="models">
-    <div class="section-header">
-      <h2 class="section-title">Modelle &amp; Provider</h2>
-      <span class="chip-muted">OpenRouter · Ollama · Custom</span>
+  <section class="card" id="install">
+    <h2>Installation in 3 Schritten</h2>
+    <ul class="list">
+      <li><span class="dot"></span><span>Öffne <a href="https://getskales.app/download/" target="_blank" rel="noreferrer">getskales.app/download</a> und lade die passende Version.</span></li>
+      <li><span class="dot"></span><span>Installiere wie gewohnt (Windows: .exe, macOS: .dmg, Linux: AppImage/DEB).</span></li>
+      <li><span class="dot"></span><span>Starte SKALES – der Assistent führt dich durch Sprache, Provider und Modell.</span></li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>API-Key (OpenRouter)</h2>
+    <p class="section-sub">
+      Empfohlener Einstieg: ein OpenRouter-Key schaltet viele Modelle frei.
+    </p>
+    <ul class="list">
+      <li><span class="dot"></span><span>Account bei <a href="https://openrouter.ai/" target="_blank" rel="noreferrer">openrouter.ai</a> anlegen.</span></li>
+      <li><span class="dot"></span><span>Key unter <code>/settings/keys</code> erzeugen.</span></li>
+      <li><span class="dot"></span><span>In SKALES unter <code>Settings → Providers → OpenRouter</code> eintragen.</span></li>
+      <li><span class="dot"></span><span>Modell wählen und chatten.</span></li>
+    </ul>
+  </section>
+
+  <section class="card" id="features">
+    <h2 class="section-title">Features &amp; Ziele</h2>
+    <p class="section-sub">
+      Lokaler KI-Agent ohne komplexes Dev-Setup – ideal für Lernende, Lehrkräfte und Entwickler:innen.
+    </p>
+    <div class="two-col">
+      <ul class="list">
+        <li><span class="dot"></span><span><strong>Lokale App:</strong> Läuft als Desktop-App, nicht nur im Browser.</span></li>
+        <li><span class="dot"></span><span><strong>Multi-Provider:</strong> OpenRouter, Ollama, Custom Endpoints u.a.</span></li>
+        <li><span class="dot"></span><span><strong>Modellwechsel:</strong> Direkt im Chat per Picker oder <code>/model</code>.</span></li>
+        <li><span class="dot"></span><span><strong>Kein Docker nötig:</strong> Installer herunterladen, starten, fertig.</span></li>
+      </ul>
+      <ul class="list">
+        <li><span class="dot"></span><span><strong>Datenhoheit:</strong> Mit Ollama bleiben Daten lokal.</span></li>
+        <li><span class="dot"></span><span><strong>Flexibel:</strong> Für Coding, Orga, Recherchen und Automationen.</span></li>
+        <li><span class="dot"></span><span><strong>Quellen offen:</strong> Source-available auf GitHub (BSL‑1.1).</span></li>
+      </ul>
     </div>
-    <div class="grid-two">
+  </section>
+
+  <section class="card" id="models">
+    <h2 class="section-title">Modelle &amp; Provider</h2>
+    <p class="section-sub">Drei Wege zu deinen eigenen Modellen.</p>
+    <div class="two-col">
       <div>
         <h3 style="font-size:13px;margin-bottom:6px;">Variante A: OpenRouter (Cloud)</h3>
-        <p style="font-size:13px;margin-bottom:8px;color:var(--text-muted);">
-          Ideal für den Einstieg: Ein API-Key schaltet viele Modelle frei.
-        </p>
         <ul class="list">
-          <li><span class="list-bullet"></span><span>Key unter <code>openrouter.ai/settings/keys</code> erstellen.</span></li>
-          <li><span class="list-bullet"></span><span>In SKALES <code>Settings → Providers → OpenRouter</code> öffnen.</span></li>
-          <li><span class="list-bullet"></span><span>Key eintragen, Modell auswählen, fertig.</span></li>
+          <li><span class="dot"></span><span>Key unter <code>openrouter.ai/settings/keys</code> erstellen.</span></li>
+          <li><span class="dot"></span><span>In SKALES <code>Settings → Providers → OpenRouter</code> öffnen.</span></li>
+          <li><span class="dot"></span><span>Key eintragen, Modell auswählen, fertig.</span></li>
         </ul>
 
-        <h3 style="font-size:13px;margin:14px 0 6px;">Variante B: Ollama (lokal)</h3>
+        <h3 style="font-size:13px;margin:12px 0 6px;">Variante B: Ollama (lokal)</h3>
         <ul class="list">
-          <li><span class="list-bullet"></span><span>Ollama installieren (siehe <a class="link-inline" href="https://docs.ollama.com/" target="_blank" rel="noreferrer">docs.ollama.com</a>).</span></li>
-          <li><span class="list-bullet"></span><span>Modell laden, z.B. <code>ollama pull llama3</code>.</span></li>
-          <li><span class="list-bullet"></span><span>In SKALES <code>Settings → Providers → Ollama</code> aktivieren.</span></li>
-          <li><span class="list-bullet"></span><span>Modelle per Refresh einlesen und auswählen.</span></li>
+          <li><span class="dot"></span><span>Ollama installieren (siehe <a href="https://docs.ollama.com/" target="_blank" rel="noreferrer">docs.ollama.com</a>).</span></li>
+          <li><span class="dot"></span><span>Modell laden, z.B. <code>ollama pull llama3</code>.</span></li>
+          <li><span class="dot"></span><span>In SKALES <code>Settings → Providers → Ollama</code> aktivieren.</span></li>
+          <li><span class="dot"></span><span>Modelle per Refresh einlesen und auswählen.</span></li>
         </ul>
       </div>
-
       <div>
         <h3 style="font-size:13px;margin-bottom:6px;">Variante C: Custom Endpoint</h3>
-        <p style="font-size:13px;margin-bottom:8px;color:var(--text-muted);">
-          Für eigene Server oder OpenAI-kompatible APIs (z.B. LM Studio, vLLM).
-        </p>
         <ul class="list">
-          <li><span class="list-bullet"></span><span><code>Settings → Providers → Custom Endpoint</code> öffnen.</span></li>
-          <li><span class="list-bullet"></span><span>Basis-URL deiner API eintragen, ggf. API-Key hinterlegen.</span></li>
-          <li><span class="list-bullet"></span><span>Modellliste aktualisieren und Modell wählen.</span></li>
+          <li><span class="dot"></span><span><code>Settings → Providers → Custom Endpoint</code> öffnen.</span></li>
+          <li><span class="dot"></span><span>Basis-URL deiner OpenAI-kompatiblen API eintragen.</span></li>
+          <li><span class="dot"></span><span>Ggf. API-Key hinterlegen, Modellliste aktualisieren, Modell wählen.</span></li>
         </ul>
 
-        <div class="table-wrap" style="margin-top:12px;">
+        <div class="table-wrap">
           <table>
             <thead>
             <tr>
@@ -425,7 +463,7 @@
           </table>
         </div>
 
-        <pre><code># Modell im Chat wechseln
+        <pre style="margin-top:8px;"><code># Modell im Chat wechseln
 /model llama3
 
 # Kontextlimit anpassen (Fortgeschrittene)
@@ -433,20 +471,20 @@
       </div>
     </div>
   </section>
-</main>
 
-<footer>
-  <div>SKALES – inoffizielle, deutschsprachige Info-Seite</div>
-  <div>Projekt auf GitHub: <a class="link-inline" href="https://github.com/skalesapp/skales" target="_blank" rel="noreferrer">skalesapp/skales</a></div>
-</footer>
+  <footer>
+    Inoffizielle, deutschsprachige Info-Seite zu SKALES
+  </footer>
+</div>
 
 <script>
+  // Smooth Scroll für Buttons und Nav
   document.querySelectorAll("[data-scroll]").forEach(function (el) {
     el.addEventListener("click", function () {
       var target = document.querySelector(el.getAttribute("data-scroll"));
       if (!target) return;
       window.scrollTo({
-        top: target.getBoundingClientRect().top + window.scrollY - 72,
+        top: target.getBoundingClientRect().top + window.scrollY - 60,
         behavior: "smooth"
       });
     });
