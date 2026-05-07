@@ -31,6 +31,18 @@ Detaillierte Screenshots und Video-Demos findest du auf den offiziellen Seiten:
 - Feature-Übersicht mit Studio-, Codework- und Orga-Ansichten: [getskales.app/features](https://getskales.app/features/)  
 - Demos in Aktion (Video): [Skales Demo](https://getskales.app/demo/)
 
+
+<!-- SKALES-AUTO-STATUS-START -->
+_Automatisch aktualisierter Status:_
+
+- Letztes Checkdatum: 2026-05-07
+- Download-Seite erreichbar: ✅
+- Unterstützte OS (laut Download-Seite): Windows, macOS, Linux (Beta)
+- Neueste Version (GitHub Releases): v0.0.0 (veröffentlicht am 1970-01-01)
+- Kurzbeschreibung des letzten Releases: Platzhalter, wird automatisch überschrieben
+<!-- SKALES-AUTO-STATUS-END -->
+
+
 ## Für wen ist das gedacht?
 
 SKALES ist gut geeignet für alle, die eine KI lokal als Desktop-Anwendung nutzen möchten, aber **keine** Lust auf Docker, Terminal-Konfiguration oder komplexe Entwicklungsumgebungen haben.[web:31][web:32] Die Projektbeschreibung nennt Windows, macOS und Linux; die Doku betont zusätzlich, dass keine Registrierung nötig ist und Daten lokal im Benutzerordner gespeichert werden.[web:31][web:22]
