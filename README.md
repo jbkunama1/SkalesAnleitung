@@ -22,6 +22,15 @@ Das Ziel ist ein möglichst einfacher Einstieg: installieren, API-Key eintragen,
 - Offizielle Doku: [docs.skales.app](https://docs.skales.app) [web:22]
 - Releases: [GitHub Releases](https://github.com/skalesapp/skales/releases) [web:1]
 
+
+## Screenshots & Demos
+
+Detaillierte Screenshots und Video-Demos findest du auf den offiziellen Seiten:
+
+- Produktseite mit UI-Screenshots: [skales.app](https://skales.app)  
+- Feature-Übersicht mit Studio-, Codework- und Orga-Ansichten: [getskales.app/features](https://getskales.app/features/)  
+- Demos in Aktion (Video): [Skales Demo](https://getskales.app/demo/)
+
 ## Für wen ist das gedacht?
 
 SKALES ist gut geeignet für alle, die eine KI lokal als Desktop-Anwendung nutzen möchten, aber **keine** Lust auf Docker, Terminal-Konfiguration oder komplexe Entwicklungsumgebungen haben.[web:31][web:32] Die Projektbeschreibung nennt Windows, macOS und Linux; die Doku betont zusätzlich, dass keine Registrierung nötig ist und Daten lokal im Benutzerordner gespeichert werden.[web:31][web:22]
