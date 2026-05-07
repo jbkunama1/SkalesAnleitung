@@ -1,0 +1,174 @@
+name: Update SKALES Info
+
+on:
+  schedule:
+    # täglich um 04:15 UTC
+    - cron: "15 4 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Fetch SKALES data and update files
+        run: |
+          mkdir -p scripts
+          cat > scripts/update-skales.mjs << 'EOF'
+          import fs from "node:fs";
+          import https from "node:https";
+
+          const urls = [
+            "https://getskales.app/de/download/",
+            "https://getskales.app/de/features/",
+            "https://api.github.com/repos/skalesapp/skales/releases/latest"
+          ];
+
+          function fetch(url, headers = {}) {
+            return new Promise((resolve, reject) => {
+              const opts = new URL(url);
+              opts.headers = {
+                "User-Agent": "skales-status-bot",
+                "Accept": "text/html,application/json",
+                ...headers
+              };
+              https.get(opts, res => {
+                let data = "";
+                res.on("data", chunk => data += chunk);
+                res.on("end", () => resolve({ url, status: res.statusCode, body: data.toString() }));
+              }).on("error", reject);
+            });
+          }
+
+          function extractOs(downloadHtml) {
+            const os = [];
+            if (/Windows/i.test(downloadHtml)) os.push("Windows");
+            if (/macOS|Mac OS/i.test(downloadHtml)) os.push("macOS");
+            if (/Linux/i.test(downloadHtml)) os.push("Linux (Beta)");
+            return os.join(", ");
+          }
+
+          function extractTopFeatures(featuresHtml) {
+            // sehr simple Heuristik: nach Schlüsselwörtern suchen
+            const candidates = [
+              { key: /lokale\s+ki|local ai/i, label: "Lokale KI & Datensouveränität" },
+              { key: /studio|ai studio/i, label: "AI Studio – Inhalte & Medien" },
+              { key: /codework|code work/i, label: "Codework – Code & Automationen" },
+              { key: /browser control|browser-automation|browser automation/i, label: "Browser-Automation & Playbooks" },
+              { key: /organization/i, label: "Organisation & Wissensmanagement" }
+            ];
+            const picked = [];
+            for (const c of candidates) {
+              if (c.key.test(featuresHtml) && !picked.find(p => p.label === c.label)) {
+                picked.push(c.label);
+              }
+              if (picked.length === 3) break;
+            }
+            if (!picked.length) {
+              picked.push("Lokale KI-Desktop-App");
+              picked.push("Multi-Provider (OpenRouter, Ollama, Custom)");
+              picked.push("Studio & Codework für Inhalte und Code");
+            }
+            return picked;
+          }
+
+          function extractReleaseInfo(releaseJson) {
+            try {
+              const data = JSON.parse(releaseJson);
+              const tag = data.tag_name || data.name || "unbekannt";
+              const published = data.published_at ? data.published_at.slice(0, 10) : "unbekannt";
+              const body = (data.body || "").toLowerCase();
+              let summary = "";
+              if (/hotfix|bugfix/.test(body)) summary = "Hotfix / Bugfix-Release";
+              else if (/feature|new/.test(body)) summary = "Neue Features & Verbesserungen";
+              else summary = "Stabilitäts- und UX-Verbesserungen";
+              return { tag, published, summary };
+            } catch {
+              return { tag: "unbekannt", published: "unbekannt", summary: "n/a" };
+            }
+          }
+
+          function replaceBlock(content, startTag, endTag, newInner) {
+            const start = content.indexOf(startTag);
+            const end = content.indexOf(endTag);
+            if (start === -1 || end === -1 || end < start) return content;
+            const before = content.slice(0, start + startTag.length);
+            const after = content.slice(end);
+            return `${before}\n${newInner}\n${after}`;
+          }
+
+          const [download, features, latestRelease] = await Promise.all([
+            fetch(urls[0]),
+            fetch(urls[1]),
+            fetch(urls[2], { "Accept": "application/vnd.github+json" })
+          ]);
+
+          const checkedAt = new Date().toISOString().slice(0, 10);
+          const osStr = extractOs(download.body);
+          const topFeatures = extractTopFeatures(features.body);
+          const releaseInfo = extractReleaseInfo(latestRelease.body);
+
+          // README.md aktualisieren
+          if (fs.existsSync("README.md")) {
+            let readme = fs.readFileSync("README.md", "utf8");
+            const newBlock = [
+              `_Automatisch aktualisierter Status:_`,
+              ``,
+              `- Letztes Checkdatum: ${checkedAt}`,
+              `- Download-Seite erreichbar: ${download.status === 200 ? "✅" : "⚠️"}`,
+              `- Unterstützte OS (laut Download-Seite): ${osStr || "unbekannt"}`,
+              `- Neueste Version (GitHub Releases): ${releaseInfo.tag} (veröffentlicht am ${releaseInfo.published})`,
+              `- Kurzbeschreibung des letzten Releases: ${releaseInfo.summary}`
+            ].join("\n");
+            readme = replaceBlock(
+              readme,
+              "<!-- SKALES-AUTO-STATUS-START -->",
+              "<!-- SKALES-AUTO-STATUS-END -->",
+              newBlock
+            );
+            fs.writeFileSync("README.md", readme);
+          }
+
+          // index.html aktualisieren
+          if (fs.existsSync("index.html")) {
+            let html = fs.readFileSync("index.html", "utf8");
+            const featuresHtml = `
+<ul class="list">
+  <li><span class="dot"></span><span>Unterstützte OS (laut offizieller Seite): ${osStr || "n/a"}</span></li>
+  <li><span class="dot"></span><span>Neueste Version: ${releaseInfo.tag} (Release: ${releaseInfo.published})</span></li>
+  <li><span class="dot"></span><span>Top-Features aktuell (Kurzfassung): ${topFeatures.join(" · ")}</span></li>
+</ul>
+`.trim();
+            html = replaceBlock(
+              html,
+              "<!-- SKALES-AUTO-FEATURES-START -->",
+              "<!-- SKALES-AUTO-FEATURES-END -->",
+              featuresHtml
+            );
+            fs.writeFileSync("index.html", html);
+          }
+          EOF
+
+          node scripts/update-skales.mjs
+
+      - name: Commit and push changes if any
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add README.md index.html || true
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git commit -m "chore: update SKALES status (automatisch)"
+            git push origin "${GITHUB_REF_NAME}"
+          else
+            echo "Keine Änderungen – nichts zu committen."
+          fi
