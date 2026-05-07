@@ -1,4 +1,4 @@
-# GitHub Scales / SKALES – Einfache Anleitung für Einsteiger
+# SKALES – Einfache Anleitung für Einsteiger
 
 ![Platform](https://img.shields.io/badge/Plattform-Windows%20%7C%20macOS%20%7C%20Linux-blue)
 ![Level](https://img.shields.io/badge/Zielgruppe-Einsteiger%20%26%20DAU-success)
@@ -7,7 +7,6 @@
 ![License](https://img.shields.io/badge/Lizenz-BSL--1.1-lightgrey)
 ![Language](https://img.shields.io/badge/Sprache-DE-red)
 
-> Diese README ist als leicht verständliche Projekt-Dokumentation für GitHub gedacht und kann direkt in einem Repository oder auf GitHub Pages verwendet werden.
 
 ## Was ist SKALES?
 
